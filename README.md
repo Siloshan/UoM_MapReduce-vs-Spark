@@ -56,3 +56,79 @@
 |<img src="./Support/comp_table_f/avarage_table.PNG" width="350">|<img src="./Support/comp_table_f/avarage_graph.PNG" width="350">|
 |:---:|:---:|
 | Avarage table | Avarage graph | 
+
+## Usefull codes
+### Hiveql:
+#### create table and import data from csv located in s3:
+
+```
+CREATE EXTERNAL TABLE DelayedFlights_hive
+(
+Index int,
+Year int,
+Month int,
+DayofMonth int,
+DayOfWeek int,
+DepTime int,
+CRSDepTime int,
+ArrTime int,
+CRSArrTime int,
+UniqueCarrier string,
+FlightNum int,
+TailNum string,
+ActualElapsedTime int,
+CRSElapsedTime int,
+AirTime int,
+ArrDelay int,
+DepDelay int,
+Origin string,
+Dest string,
+Distance int,
+TaxiIn int,
+TaxiOut int,
+Cancelled int,
+CancellationCode string,
+Diverted int,
+CarrierDelay int,
+WeatherDelay int,
+NASDelay int,
+SecurityDelay int,
+LateAircraftDelay int)
+
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION 's3://mybucketsilo/emr_hive/input'
+TBLPROPERTIES("skip.header.line.count"="1");
+
+```
+#### Queries:
+```
+SELECT Year, avg((CarrierDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year
+SELECT Year, avg((NASDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year;
+SELECT Year, avg((WeatherDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year;
+SELECT Year, avg((LateAircraftDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year;
+SELECT Year, avg((SecurityDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year;
+```
+
+### Spark-SQL:
+#### Import data from csv located in s3:
+
+```
+val df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("s3://aws-logs-359303467698-us-east-1/elasticmapreduce/input/DelayedFlights-updated.csv")
+
+df.createOrReplaceTempView("delay_flights")
+```
+
+#### get query result:
+```
+spark.sql("SELECT Year, avg((CarrierDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
+```
+#### get query result with time:
+```
+spark.time {
+  val result = spark.sql("SELECT Year, avg((CarrierDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
+}
+```
+
+##### All these codes and other usefull codes were located in the corresponding folders
