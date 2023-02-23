@@ -21,8 +21,4 @@
 ### Hadoop map reduced and Apache Spark resluts for each queries:
 ###### 1. Year wise carrier delay from 2003-2010
 
-
-
-
-
-
+![This is an image](./MapReduce/images/image1.png)
