@@ -1,7 +1,7 @@
 # MapReduce vs. Spark
 ## Hadoop MapReduce and Apache Spark are two widely recognized big data architectures.They provide a robust platform for processing large amounts of data and integrating machine learning applications. So, this repository refers the time comparison of the both architechtrues on how those react on queries.
 
-#### For analysing we have used hive which uses hiveQL statement which runs over MapReduce and spark which uses Spark-SQL which runs over spark framework. 
+#### This nalize is for time taken to exacute queries. For that, we have used hive which uses hiveQL statement which runs over MapReduce and spark which uses Spark-SQL which runs over spark framework. 
 
 ## Data set:
 ### To compare each processes, below data set was used which is available in the kaggle. 
