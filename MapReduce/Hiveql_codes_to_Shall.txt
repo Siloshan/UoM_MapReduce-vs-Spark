@@ -1,3 +1,5 @@
+## create teable and load data
+
 CREATE EXTERNAL TABLE DelayedFlights_hive
 (
 Index int,
@@ -37,6 +39,7 @@ STORED AS TEXTFILE
 LOCATION 's3://mybucketsilo/emr_hive/input'
 TBLPROPERTIES("skip.header.line.count"="1");
 
+## example queries to run
 SELECT Year, avg((CarrierDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year
 SELECT Year, avg((NASDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year;
 SELECT Year, avg((WeatherDelay /ArrDelay)*100) from DelayedFlights_hive GROUP BY Year;
