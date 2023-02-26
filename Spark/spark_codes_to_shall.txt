@@ -1,15 +1,22 @@
-go to spark-shall
+go to --> spark-shell
 
+
+## create extranal table
 val df = spark.read.format("csv").option("header", "true").option("inferSchema", "true").load("s3://aws-logs-359303467698-us-east-1/elasticmapreduce/input/DelayedFlights-updated.csv")
 
+## define a name for table
 df.createOrReplaceTempView("delay_flights")
 
+## Example to exacute exacute query without getting the exacution time
 spark.sql("SELECT Year, avg((CarrierDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
 
+## Example to exacute query to get result with exacution time
 spark.time {
   val result = spark.sql("SELECT Year, avg((CarrierDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()
 }
 
+
+## example queries to run
 spark.time { val result = spark.sql("SELECT Year, avg((CarrierDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()}
 spark.time { val result = spark.sql("SELECT Year, avg((NASDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()}
 spark.time { val result = spark.sql("SELECT Year, avg((WeatherDelay /ArrDelay)*100) from delay_flights GROUP BY Year").show()}
